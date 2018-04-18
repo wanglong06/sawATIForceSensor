@@ -101,6 +101,7 @@ void mtsATINetFTSensor::Startup(void)
         *(uint32*)&(Data->Request)[4] = htonl(ATI_NUM_SAMPLES); /* see section 9.1 in Net F/T user manual. */
 
         Socket.SetDestination(IP, Data->Port);
+        Socket.AssignPort(Data->Port);
     }
 }
 
@@ -185,12 +186,12 @@ void mtsATINetFTSensor::GetReadings(void)
 {
     int result;
     // try to send, but timeout after 10 ms
-    result = Socket.Send((const char *)(Data->Request), 8, SocketTimeout);
-    if (result == -1) {
-        IsConnected = false;
-        CMN_LOG_CLASS_RUN_WARNING << "GetReadings: UDP send failed" << std::endl;
-        return;
-    }
+    // result = Socket.Send((const char *)(Data->Request), 8, SocketTimeout);
+    // if (result == -1) {
+    //     IsConnected = false;
+    //     CMN_LOG_CLASS_RUN_WARNING << "GetReadings: UDP send failed" << std::endl;
+    //     return;
+    // }
 
     // if we were able to send we should now receive
     result = Socket.Receive((char *)(Data->Response), 36, SocketTimeout);
