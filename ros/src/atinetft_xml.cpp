@@ -46,6 +46,12 @@ int main(int argc, char ** argv)
     double rosPeriod = 10.0 * cmn_ms;
     std::string rosNamespace = "/atinetft";
 
+    // ---- WARNING: hack to remove ros args ----
+    ros::V_string argout;
+    ros::removeROSArgs(argc, argv, argout);
+    argc = argout.size();
+    // ------------------------------------------
+
     options.AddOptionOneValue("c", "configuration",
                               "XML configuration file",
                               cmnCommandLineOptions::REQUIRED_OPTION, &configFile);
